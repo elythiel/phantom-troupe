@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -26,6 +27,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from archive import load_config  # noqa: E402
 
 TIMEOUT = 30
+# A key is interpolated into a URL path. Anything else could aim the request at
+# another endpoint on the same host.
+KEY = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 
 
 class TrackerError(RuntimeError):
@@ -305,6 +309,9 @@ def main() -> int:
 
     args = parser.parse_args()
     try:
+        key = getattr(args, "key", None)
+        if key is not None and not KEY.match(str(key)):
+            raise TrackerError(f"{key!r} is not a usable ticket key.")
         name, tracker = resolve(args.tracker)
         print(json.dumps(args.func(args, name, tracker), indent=2, ensure_ascii=False))
     except TrackerError as exc:

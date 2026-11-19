@@ -44,6 +44,9 @@ RECIPROCAL = {
 }
 
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+# A subject id becomes a directory name, so it may not contain a separator or a
+# parent reference. Ticket keys come from a tracker, which is not us.
+SUBJECT_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 
 DEFAULT_ARCHIVE = "~/.local/share/fantome-troupe"
 CONFIG_CANDIDATES = (
@@ -392,8 +395,17 @@ def cmd_show(args) -> int:
 # ------------------------------------------------------------------ mutations
 
 
+def check_id(sid: str) -> str:
+    if not sid or ".." in sid or not SUBJECT_ID.match(sid):
+        raise SystemExit(
+            f"error: {sid!r} is not a usable subject id "
+            "(letters, digits, dot, dash and underscore, starting with a letter or digit)"
+        )
+    return sid
+
+
 def subject_path(root: Path, sid: str) -> Path:
-    return root / "subjects" / sid / "subject.json"
+    return root / "subjects" / check_id(sid) / "subject.json"
 
 
 def load_subject(root: Path, sid: str) -> dict:

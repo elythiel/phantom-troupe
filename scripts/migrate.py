@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from archive import SCHEMA, STEPS, find_archive, now, write_json  # noqa: E402
+from archive import SCHEMA, STEPS, SUBJECT_ID, find_archive, now, write_json  # noqa: E402
 
 # Source file name (lowercase, without extension) -> step identifier.
 # "journal" is not a step: the file is appended to journal.md instead.
@@ -169,13 +169,19 @@ def main() -> int:
     pattern = re.compile(args.match)
 
     plans = []
+    skipped = []
     for entry in sorted(source.iterdir()):
         if not entry.is_dir() or not pattern.match(entry.name):
+            continue
+        if not SUBJECT_ID.match(f"{args.tracker}-{entry.name}"):
+            skipped.append(entry.name)
             continue
         plan = plan_subject(entry, args.tracker, args.project, mapping)
         if plan:
             plans.append(plan)
 
+    for name in skipped:
+        print(f"skipped {name!r}: it would not make a usable subject id", file=sys.stderr)
     if not plans:
         print(f"Nothing to import from {source}")
         return 0
