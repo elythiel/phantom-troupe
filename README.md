@@ -61,6 +61,46 @@ Every step can be forced or disabled from the configuration, and a route is resu
 - A tracker: a [Vikunja](https://vikunja.io) instance, or a Jira Cloud reached through the
   Atlassian MCP connector.
 
+## What this plugin can do on your machine
+
+Read this before installing. A plugin runs with your permissions, so the honest answer is more
+useful than a reassuring one.
+
+**The members are subagents, and two of them write.** That is the job, not a side effect:
+
+| Member | Tools |
+| --- | --- |
+| Shalnark, Feitan | `Read`, `Edit`, `Write`, `Bash`, `Grep`, `Glob` — they write code and tests, and run your project's commands |
+| Pakunoda, Machi, Nobunaga | `Read`, `Grep`, `Glob`, `Bash`, `Write` — they read your code and run read-only commands |
+| Hisoka | `Read`, `Grep`, `Glob`, `Write` — no shell at all |
+
+Everything they run still goes through Claude Code's own permission prompts. This plugin asks for
+no exemption from them.
+
+**The mod only reads.** You do not have to take that on trust — `claude plugin validate` works it
+out from the code and prints the list:
+
+```
+calls: $.clock.every, $.command.register, $.env.get, $.fs.exists,
+       $.fs.read, $.ui.invalidate, $.ui.resolve
+env writes: nothing
+```
+
+No process, no network, no write.
+
+**The only network traffic goes to the tracker you configured**, from `scripts/tracker.py`, to the
+`baseUrl` in your own configuration. A Jira tracker goes through your session's Atlassian
+connector instead, so this plugin makes no request of its own for it. The scripts are stdlib-only
+Python with no third-party dependency, and contain no `eval`, no `exec` and no subprocess call.
+
+**Your token is read at the moment of the call**, from the file your configuration names, placed
+in an `Authorization` header, and never printed, logged or written to the archive. Error messages
+give the method and the path, not the host.
+
+**What the troupe will never do**: commit, push, open a pull request, or run a release command.
+Nobunaga writes those texts; you run the gestures. It moves a card only where `transitions`
+allows, and `null` there means you move it yourself.
+
 ## Install
 
 ```sh
