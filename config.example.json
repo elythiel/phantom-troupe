@@ -72,8 +72,8 @@
 
   "members": {
     "pakunoda": { "model": "opus" },
-    "hisoka": { "model": "sonnet" },
-    "shalnark": { "model": "opus" },
+    "kalluto": { "model": "sonnet" },
+    "illumi": { "model": "opus" },
     "machi": { "model": "opus" },
     "feitan": { "model": "sonnet" },
     "nobunaga": { "model": "sonnet" }

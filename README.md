@@ -29,8 +29,8 @@ logic is duplicated in JavaScript, and everything keeps working with the mod dis
 | --- | --- |
 | **Chrollo** | the orchestrator — he does nothing himself, he summons |
 | **Pakunoda** | ticket creation and refinement: she digs out of the code what the ticket does not say |
-| **Hisoka** | UX, interface, accessibility — only when there is something to look at |
-| **Shalnark** | implementation |
+| **Kalluto** | UX, interface, accessibility — only when there is something to look at |
+| **Illumi** | implementation |
 | **Machi** | code review |
 | **Feitan** | tests and edge cases |
 | **Nobunaga** | shipping: commit message, pull request, version |
@@ -70,9 +70,9 @@ useful than a reassuring one.
 
 | Member | Tools |
 | --- | --- |
-| Shalnark, Feitan | `Read`, `Edit`, `Write`, `Bash`, `Grep`, `Glob` — they write code and tests, and run your project's commands |
+| Illumi, Feitan | `Read`, `Edit`, `Write`, `Bash`, `Grep`, `Glob` — they write code and tests, and run your project's commands |
 | Pakunoda, Machi, Nobunaga | `Read`, `Grep`, `Glob`, `Bash`, `Write` — they read your code and run read-only commands |
-| Hisoka | `Read`, `Grep`, `Glob`, `Write` — no shell at all |
+| Kalluto | `Read`, `Grep`, `Glob`, `Write` — no shell at all |
 
 Everything they run still goes through Claude Code's own permission prompts. This plugin asks for
 no exemption from them.
@@ -132,7 +132,7 @@ Every key is documented in [`docs/configuration.md`](docs/configuration.md).
 While a subject is being worked on, the mod keeps one row above the prompt:
 
 ```
-🕷 personal-62  Attachment panel  · step 4/7 implementation — shalnark  · epic attachments
+🕷 personal-62  Attachment panel  · step 4/7 implementation — illumi  · epic attachments
 ```
 
 `/brigade-board` prints the whole archive, and `/brigade-epic <slug>` one epic. Both are

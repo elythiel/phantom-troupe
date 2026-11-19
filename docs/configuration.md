@@ -109,7 +109,7 @@ Overrides per member. The key is the member's lowercase name; today the only opt
 
 ```json
 "members": {
-  "shalnark": { "model": "opus" },
+  "illumi": { "model": "opus" },
   "feitan": { "model": "sonnet" }
 }
 ```

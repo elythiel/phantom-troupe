@@ -190,7 +190,7 @@ exists for the mod and for `/brigade` to answer "where was I" without walking th
   "step": "dev",
   "stepIndex": 4,
   "stepTotal": 7,
-  "member": "shalnark",
+  "member": "illumi",
   "epic": "attachments",
   "startedAt": "2026-11-19T09:12:30Z",
   "updatedAt": "2026-11-19T09:12:30Z"

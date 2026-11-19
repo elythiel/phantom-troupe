@@ -32,8 +32,8 @@ Every member ends its file with exactly one HTML comment, on its own line:
 | Member | Possible verdicts |
 | --- | --- |
 | Pakunoda | *(none — her output is a description, not a judgement)* |
-| Hisoka | `approved`, `changes-requested`, `blocked` |
-| Shalnark | `done`, `partial`, `blocked` |
+| Kalluto | `approved`, `changes-requested`, `blocked` |
+| Illumi | `done`, `partial`, `blocked` |
 | Machi | `approved`, `changes-requested`, `blocked` |
 | Feitan | `passing`, `failing`, `blocked` |
 | Nobunaga | `ready`, `blocked` |
@@ -78,7 +78,7 @@ because there is nobody on the other end of a subagent.
 - **Commit, push, or open a pull request.** Nobunaga writes the texts; the user runs the
   gestures.
 - **Move a card.** See `transitions` in the configuration.
-- **Write outside its output file**, except Shalnark and Feitan, who write code and tests — that
+- **Write outside its output file**, except Illumi and Feitan, who write code and tests — that
   is the work.
 - **Ask the user a question.**
 
@@ -88,9 +88,9 @@ A step is a member rather than another paragraph in the orchestrator when it nee
 different posture or a clean context:
 
 - **Pakunoda** needs to read a lot of code and keep only a page of it.
-- **Hisoka** has to look at the interface without being told what it was meant to be.
-- **Shalnark** needs the whole context of the project and none of the review's.
+- **Kalluto** has to look at the interface without being told what it was meant to be.
+- **Illumi** needs the whole context of the project and none of the review's.
 - **Machi** must read the diff without having written it. This is the one that would be worth
   nothing done by the author.
-- **Feitan** must try to break what Shalnark just convinced himself was right.
+- **Feitan** must try to break what Illumi just convinced himself was right.
 - **Nobunaga** needs everything, and produces three paragraphs.

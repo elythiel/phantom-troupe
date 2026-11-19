@@ -72,8 +72,8 @@ override everything.
 | --- | --- | --- | --- |
 | `ticket` | Pakunoda | the argument was an intent, not a key | a key was given |
 | `refine` | Pakunoda | the description has no "done when" section, **or** the archive has no `refine` step, **or** the live description's digest differs from `descriptionDigest` | the refinement is recorded and the digest still matches |
-| `design` | Hisoka | the subject directory holds images, **or** the ticket mentions a mockup or a screen, **or** the scope names files that render something | nothing in the subject has a visible surface |
-| `dev` | Shalnark | `git diff` against the base branch is empty for this subject, **or** the archive has no `dev` step, **or** the last `dev` verdict was `partial` | a coherent diff exists and `dev` is recorded `done` |
+| `design` | Kalluto | the subject directory holds images, **or** the ticket mentions a mockup or a screen, **or** the scope names files that render something | nothing in the subject has a visible surface |
+| `dev` | Illumi | `git diff` against the base branch is empty for this subject, **or** the archive has no `dev` step, **or** the last `dev` verdict was `partial` | a coherent diff exists and `dev` is recorded `done` |
 | `review` | Machi | a diff exists and `review` is missing, **or** the newest commit or working-tree change is more recent than the recorded review | the review is recorded and nothing changed since |
 | `test` | Feitan | the project has a test suite **and** the diff touches logic rather than only markup, text or styling | there is no suite, or nothing testable changed |
 | `ship` | Nobunaga | `review` is `approved`, `test` is `passing` or skipped, and `ship` is missing | already shipped, or the review did not pass |
@@ -118,7 +118,7 @@ Output file names: `steps/10-ticket.md`, `20-refine.md`, `30-design.md`, `40-dev
 | Verdict | What you do |
 | --- | --- |
 | `approved`, `done`, `passing`, `ready` | Carry on. |
-| `changes-requested`, `failing` | Run Shalnark again with a brief naming the file holding the findings, then run the member that complained again. **Three rounds at most**; after that, stop, record `failed`, and tell the user where it stands. |
+| `changes-requested`, `failing` | Run Illumi again with a brief naming the file holding the findings, then run the member that complained again. **Three rounds at most**; after that, stop, record `failed`, and tell the user where it stands. |
 | `partial` | Carry on to the review — a partial result is worth reviewing — but say so, and never reach `ship` with a `partial` dev. |
 | `blocked` | Read the member's `## Blocked` section, put its questions to the user, write the answers into the subject directory as `steps/NN-answers.md`, then run the member again with that file named in the brief. Set the subject `blocked` while you wait. |
 
@@ -160,7 +160,7 @@ open the pull request, run the release). Point at the files rather than repeatin
 
 ## House rules
 
-- Never explore the code yourself. That is Pakunoda's, Shalnark's and Machi's.
+- Never explore the code yourself. That is Pakunoda's, Illumi's and Machi's.
 - Never write a file inside the project. Members do that.
 - Never commit, never push, never open a pull request, never run a release command.
 - Announce each member before calling it, in one line, with the reason.

@@ -19,7 +19,7 @@ the window.
 While a subject is being worked on, one row sits above the prompt:
 
 ```
-🕷 personal-62  Attachment panel  · step 4/7 implementation — shalnark  · epic attachments
+🕷 personal-62  Attachment panel  · step 4/7 implementation — illumi  · epic attachments
 ```
 
 It comes from `current.json`, which `/brigade` writes when it enters a step and clears when it
