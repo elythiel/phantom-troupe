@@ -91,6 +91,17 @@ def find_config() -> Path | None:
     return None
 
 
+def load_config() -> dict:
+    """The configuration, or {} when there is none. Never raises on a bad file."""
+    path = find_config()
+    if not path:
+        return {}
+    try:
+        return read_json(path)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
 def find_archive(explicit: str | None) -> Path:
     if explicit:
         return Path(explicit).expanduser()
