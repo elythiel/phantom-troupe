@@ -1,12 +1,12 @@
-# Configuration locale — jamais versionnée.
-# Tout ce qui désigne un hôte, un projet, une personne ou un jeton vit ici.
+# Local configuration — never committed.
+# Anything naming a host, a project, a person or a token lives here.
 config.json
 *.local.json
 .brigade/
 *.token
 token
 
-# Outillage du mod
+# Mod tooling
 node_modules/
 
 # macOS
