@@ -1,6 +1,8 @@
 {
-  "$meta": { "language": "fr", "name": "Français" },
-
+  "$meta": {
+    "language": "fr",
+    "name": "Français"
+  },
   "steps": {
     "ticket": "ticket",
     "refine": "affinage",
@@ -10,21 +12,18 @@
     "test": "tests",
     "ship": "livraison"
   },
-
   "status": {
     "open": "ouvert",
     "active": "en cours",
     "blocked": "bloqué",
     "done": "terminé"
   },
-
   "band": {
     "idle": "aucun sujet en cours",
     "stepOf": "étape {current}/{total}",
     "epic": "épopée {name}",
     "noConfig": "pas de configuration — voir docs/configuration.md"
   },
-
   "board": {
     "title": "Fantôme Troupe",
     "empty": "l'archive est vide",
@@ -33,12 +32,12 @@
       "status": "État",
       "step": "Étape",
       "updated": "Mis à jour",
-      "epic": "Épopée"
+      "epic": "Épopée",
+      "title": "Titre"
     },
     "epics": "Épopées",
     "subjectCount": "{count} sujet(s)"
   },
-
   "errors": {
     "noConfig": "Aucune configuration trouvée. Copie config.example.json vers ~/.config/fantome-troupe/config.json.",
     "archiveUnreadable": "Archive illisible à {path}.",

@@ -87,6 +87,18 @@ cp config.example.json ~/.config/fantome-troupe/config.json
 
 Every key is documented in [`docs/configuration.md`](docs/configuration.md).
 
+## What it looks like
+
+While a subject is being worked on, the mod keeps one row above the prompt:
+
+```
+🕷 personal-62  Attachment panel  · step 4/7 implementation — shalnark  · epic attachments
+```
+
+`/brigade-board` prints the whole archive, and `/brigade-epic <slug>` one epic. Both are
+display-only: what they print is for you and never enters the conversation. See
+[`docs/mod.md`](docs/mod.md).
+
 ## Languages
 
 The repository is in English; the troupe writes in whatever `owner.language` says. Adding a
