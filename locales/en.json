@@ -1,0 +1,47 @@
+{
+  "$meta": { "language": "en", "name": "English" },
+
+  "steps": {
+    "ticket": "ticket",
+    "refine": "refinement",
+    "design": "design",
+    "dev": "implementation",
+    "review": "review",
+    "test": "tests",
+    "ship": "shipping"
+  },
+
+  "status": {
+    "open": "open",
+    "active": "active",
+    "blocked": "blocked",
+    "done": "done"
+  },
+
+  "band": {
+    "idle": "no active subject",
+    "stepOf": "step {current}/{total}",
+    "epic": "epic {name}",
+    "noConfig": "no configuration — see docs/configuration.md"
+  },
+
+  "board": {
+    "title": "Fantôme Troupe",
+    "empty": "the archive is empty",
+    "column": {
+      "subject": "Subject",
+      "status": "Status",
+      "step": "Step",
+      "updated": "Updated",
+      "epic": "Epic"
+    },
+    "epics": "Epics",
+    "subjectCount": "{count} subject(s)"
+  },
+
+  "errors": {
+    "noConfig": "No configuration found. Copy config.example.json to ~/.config/fantome-troupe/config.json.",
+    "archiveUnreadable": "Archive unreadable at {path}.",
+    "badIndex": "The archive index is malformed; the troupe will rebuild it on its next run."
+  }
+}

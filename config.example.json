@@ -1,0 +1,88 @@
+{
+  "archive": "~/.local/share/fantome-troupe",
+
+  "owner": {
+    "name": "Your name",
+    "language": "en"
+  },
+
+  "defaultTracker": "personal",
+
+  "trackers": {
+    "personal": {
+      "kind": "vikunja",
+      "baseUrl": "https://vikunja.example.org/api/v1",
+      "tokenFile": "~/.config/vikunja.token",
+      "keyPattern": "^[0-9]+$",
+      "descriptionFormat": "html",
+      "defaultProject": "my-project",
+      "projects": {
+        "my-project": 1
+      },
+      "states": {
+        "todo": ["Backlog", "To do"],
+        "doing": ["Doing", "In progress"],
+        "review": ["Review"],
+        "done": ["Done"]
+      },
+      "transitions": {
+        "start": "doing",
+        "review": null,
+        "finish": null
+      },
+      "comments": {
+        "postDevNote": true,
+        "postReviewNote": false
+      }
+    },
+
+    "work": {
+      "kind": "jira-mcp",
+      "keyPattern": "^ABC-[0-9]+$",
+      "projectKeys": ["ABC"],
+      "cloudId": "auto",
+      "descriptionFormat": "adf",
+      "states": {
+        "todo": ["To Do"],
+        "doing": ["In Progress"],
+        "review": ["In Review"],
+        "done": ["Done"]
+      },
+      "transitions": {
+        "start": "doing",
+        "review": null,
+        "finish": null
+      },
+      "comments": {
+        "postDevNote": true,
+        "postReviewNote": false
+      }
+    }
+  },
+
+  "steps": {
+    "ticket": "auto",
+    "refine": "auto",
+    "design": "auto",
+    "dev": "auto",
+    "review": "auto",
+    "test": "auto",
+    "ship": "auto"
+  },
+
+  "members": {
+    "pakunoda": { "model": "opus" },
+    "hisoka": { "model": "sonnet" },
+    "shalnark": { "model": "opus" },
+    "machi": { "model": "opus" },
+    "feitan": { "model": "sonnet" },
+    "nobunaga": { "model": "sonnet" }
+  },
+
+  "workspaces": {
+    "~/code/my-project": {
+      "tracker": "personal",
+      "project": "my-project"
+    }
+  }
+}

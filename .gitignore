@@ -1,0 +1,13 @@
+# Configuration locale — jamais versionnée.
+# Tout ce qui désigne un hôte, un projet, une personne ou un jeton vit ici.
+config.json
+*.local.json
+.brigade/
+*.token
+token
+
+# Outillage du mod
+node_modules/
+
+# macOS
+.DS_Store

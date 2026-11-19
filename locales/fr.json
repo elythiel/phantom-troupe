@@ -1,0 +1,47 @@
+{
+  "$meta": { "language": "fr", "name": "Français" },
+
+  "steps": {
+    "ticket": "ticket",
+    "refine": "affinage",
+    "design": "design",
+    "dev": "développement",
+    "review": "review",
+    "test": "tests",
+    "ship": "livraison"
+  },
+
+  "status": {
+    "open": "ouvert",
+    "active": "en cours",
+    "blocked": "bloqué",
+    "done": "terminé"
+  },
+
+  "band": {
+    "idle": "aucun sujet en cours",
+    "stepOf": "étape {current}/{total}",
+    "epic": "épopée {name}",
+    "noConfig": "pas de configuration — voir docs/configuration.md"
+  },
+
+  "board": {
+    "title": "Fantôme Troupe",
+    "empty": "l'archive est vide",
+    "column": {
+      "subject": "Sujet",
+      "status": "État",
+      "step": "Étape",
+      "updated": "Mis à jour",
+      "epic": "Épopée"
+    },
+    "epics": "Épopées",
+    "subjectCount": "{count} sujet(s)"
+  },
+
+  "errors": {
+    "noConfig": "Aucune configuration trouvée. Copie config.example.json vers ~/.config/fantome-troupe/config.json.",
+    "archiveUnreadable": "Archive illisible à {path}.",
+    "badIndex": "L'index de l'archive est corrompu ; la Brigade le reconstruira au prochain passage."
+  }
+}
