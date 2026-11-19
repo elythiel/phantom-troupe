@@ -207,9 +207,20 @@ by an interrupted run is stale, not corrupt: the mod shows it until the next run
 
 | Command | What it does |
 | --- | --- |
-| `archive.py validate [--archive DIR]` | Checks every `subject.json` and epic file against this document, reports one-sided links and unknown schema versions. Exit code 1 on any error. |
-| `archive.py reindex [--fix-links]` | Rebuilds `index.json` from `subjects/` and `epics/`. With `--fix-links`, writes the missing half of one-sided links. |
-| `archive.py show [ID]` | Prints a subject, or the whole board when given no id. |
+| `validate` | Checks every `subject.json` and epic file against this document, reports one-sided links and unknown schema versions. Exit code 1 on any error. |
+| `reindex [--fix-links]` | Rebuilds `index.json`. With `--fix-links`, writes the missing half of one-sided links. |
+| `show [ID]` | Prints a subject, or the whole board when given no id. |
+| `new --tracker T --key K --title X [--if-missing]` | Creates a subject and prints its id. |
+| `set ID [--status --title --url --project --digest --epic]` | Changes a subject's fields. |
+| `step ID --step S --state X [--member --file --reason --verdict]` | Records the outcome of a step. A `skipped` state without `--reason` is refused. |
+| `journal ID --step S [--member M] --file F` | Appends a block to the subject's journal. |
+| `current [--id ID --step S --member M] [--clear]` | Sets or clears what the mod shows above the prompt. |
+| `link ID --type T --to OTHER` | Links two subjects, writing both sides. |
+| `epic SLUG [--title X] [--add ID] [--status S]` | Creates an epic, or adds a subject to one. |
+| `digest [--file F]` | Prints the `sha256:…` digest of a description. |
+
+Every mutating command rebuilds `index.json` before it returns, so the derived pair is never
+behind the source of truth by more than one command.
 
 `scripts/migrate.py` imports an older per-ticket directory layout; see
 [`docs/migration.md`](migration.md).

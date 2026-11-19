@@ -389,6 +389,227 @@ def cmd_show(args) -> int:
     return 0
 
 
+# ------------------------------------------------------------------ mutations
+
+
+def subject_path(root: Path, sid: str) -> Path:
+    return root / "subjects" / sid / "subject.json"
+
+
+def load_subject(root: Path, sid: str) -> dict:
+    path = subject_path(root, sid)
+    if not path.is_file():
+        raise SystemExit(f"error: unknown subject {sid!r} in {root}")
+    return read_json(path)
+
+
+def save_subject(root: Path, sid: str, subject: dict) -> None:
+    subject["updatedAt"] = now()
+    write_json(subject_path(root, sid), subject)
+
+
+def refresh(root: Path) -> None:
+    """Keep the derived index in step with the source of truth."""
+    write_json(root / "index.json", Archive(root).load().build_index())
+
+
+def cmd_new(args) -> int:
+    root = find_archive(args.archive)
+    sid = args.id or f"{args.tracker}-{args.key}"
+    path = subject_path(root, sid)
+    if path.is_file():
+        if args.if_missing:
+            print(sid)
+            return 0
+        print(f"error: {sid} already exists", file=sys.stderr)
+        return 1
+    subject = {
+        "schema": SCHEMA,
+        "id": sid,
+        "tracker": args.tracker,
+        "trackerKind": args.kind,
+        "project": args.project,
+        "key": args.key,
+        "url": args.url,
+        "title": args.title,
+        "status": "open",
+        "epic": None,
+        "links": [],
+        "descriptionDigest": None,
+        "steps": {},
+        "createdAt": now(),
+        "updatedAt": now(),
+    }
+    (root / "subjects" / sid / "steps").mkdir(parents=True, exist_ok=True)
+    write_json(path, subject)
+    if args.epic:
+        attach_epic(root, sid, args.epic, None)
+    refresh(root)
+    print(sid)
+    return 0
+
+
+def cmd_set(args) -> int:
+    root = find_archive(args.archive)
+    subject = load_subject(root, args.id)
+    if args.status:
+        if args.status not in SUBJECT_STATUS:
+            print(f"error: status must be one of {sorted(SUBJECT_STATUS)}", file=sys.stderr)
+            return 1
+        subject["status"] = args.status
+    for field, value in (("title", args.title), ("url", args.url), ("project", args.project)):
+        if value is not None:
+            subject[field] = value
+    if args.digest is not None:
+        subject["descriptionDigest"] = args.digest
+    save_subject(root, args.id, subject)
+    if args.epic:
+        attach_epic(root, args.id, args.epic, None)
+    refresh(root)
+    print(f"{args.id} updated")
+    return 0
+
+
+def cmd_step(args) -> int:
+    root = find_archive(args.archive)
+    subject = load_subject(root, args.id)
+    if args.state == "skipped" and not args.reason:
+        print("error: a skipped step needs --reason", file=sys.stderr)
+        return 1
+    entry = {"state": args.state, "at": now()}
+    for field, value in (
+        ("member", args.member),
+        ("file", args.file),
+        ("reason", args.reason),
+        ("error", args.error),
+        ("verdict", args.verdict),
+    ):
+        if value:
+            entry[field] = value
+    subject.setdefault("steps", {})[args.step] = entry
+    save_subject(root, args.id, subject)
+    refresh(root)
+    print(f"{args.id}: {args.step} -> {args.state}")
+    return 0
+
+
+def cmd_journal(args) -> int:
+    root = find_archive(args.archive)
+    load_subject(root, args.id)
+    body = sys.stdin.read() if args.file == "-" else Path(args.file).expanduser().read_text(encoding="utf-8")
+    heading = f"## {now()} — {args.step} — {args.member or 'chrollo'}"
+    path = root / "subjects" / args.id / "journal.md"
+    existing = path.read_text(encoding="utf-8") if path.is_file() else ""
+    if not existing or existing.endswith("\n\n"):
+        separator = ""
+    elif existing.endswith("\n"):
+        separator = "\n"
+    else:
+        separator = "\n\n"
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(f"{separator}{heading}\n\n{body.strip()}\n")
+    print(f"{args.id}: journal entry added")
+    return 0
+
+
+def cmd_current(args) -> int:
+    root = find_archive(args.archive)
+    root.mkdir(parents=True, exist_ok=True)
+    if args.clear:
+        write_json(root / "current.json", {"schema": SCHEMA, "subjectId": None})
+        print("current cleared")
+        return 0
+    if not args.id or not args.step:
+        print("error: --id and --step are required unless --clear", file=sys.stderr)
+        return 1
+    subject = load_subject(root, args.id)
+    order = list(STEPS)
+    write_json(
+        root / "current.json",
+        {
+            "schema": SCHEMA,
+            "subjectId": args.id,
+            "title": subject.get("title"),
+            "step": args.step,
+            "stepIndex": order.index(args.step) + 1 if args.step in order else 0,
+            "stepTotal": len(order),
+            "member": args.member,
+            "epic": subject.get("epic"),
+            "startedAt": now(),
+            "updatedAt": now(),
+        },
+    )
+    print(f"current: {args.id} {args.step}")
+    return 0
+
+
+def cmd_link(args) -> int:
+    root = find_archive(args.archive)
+    if args.type not in RECIPROCAL:
+        print(f"error: link type must be one of {sorted(RECIPROCAL)}", file=sys.stderr)
+        return 1
+    a = load_subject(root, args.id)
+    b = load_subject(root, args.to)
+    back = RECIPROCAL[args.type]
+    if not any(l.get("type") == args.type and l.get("id") == args.to for l in a.setdefault("links", [])):
+        a["links"].append({"type": args.type, "id": args.to})
+    if not any(l.get("type") == back and l.get("id") == args.id for l in b.setdefault("links", [])):
+        b["links"].append({"type": back, "id": args.id})
+    save_subject(root, args.id, a)
+    save_subject(root, args.to, b)
+    refresh(root)
+    print(f"{args.id} {args.type} {args.to}")
+    return 0
+
+
+def attach_epic(root: Path, sid: str, slug: str, title: str | None) -> None:
+    if not SLUG.match(slug):
+        raise SystemExit(f"error: {slug!r} is not a valid slug (lowercase, digits, hyphens)")
+    path = root / "epics" / f"{slug}.json"
+    epic = read_json(path) if path.is_file() else {
+        "schema": SCHEMA,
+        "slug": slug,
+        "title": title or slug,
+        "status": "open",
+        "subjects": [],
+        "createdAt": now(),
+        "updatedAt": now(),
+    }
+    if title:
+        epic["title"] = title
+    if sid and sid not in epic["subjects"]:
+        epic["subjects"].append(sid)
+    epic["updatedAt"] = now()
+    write_json(path, epic)
+    if sid:
+        subject = load_subject(root, sid)
+        subject["epic"] = slug
+        save_subject(root, sid, subject)
+
+
+def cmd_epic(args) -> int:
+    root = find_archive(args.archive)
+    attach_epic(root, args.add, args.slug, args.title)
+    if args.status:
+        if args.status not in EPIC_STATUS:
+            print(f"error: status must be one of {sorted(EPIC_STATUS)}", file=sys.stderr)
+            return 1
+        path = root / "epics" / f"{args.slug}.json"
+        epic = read_json(path)
+        epic["status"] = args.status
+        epic["updatedAt"] = now()
+        write_json(path, epic)
+    refresh(root)
+    print(f"epic {args.slug} updated")
+    return 0
+
+
+def cmd_digest(args) -> int:
+    text = sys.stdin.read() if not args.file or args.file == "-" else Path(args.file).expanduser().read_text(encoding="utf-8")
+    print(digest(text))
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--archive", help="archive directory (default: configuration, then $BRIGADE_ARCHIVE)")
@@ -403,6 +624,70 @@ def main() -> int:
     show = sub.add_parser("show", help="print one subject, or the board")
     show.add_argument("id", nargs="?")
     show.set_defaults(func=cmd_show)
+
+    new = sub.add_parser("new", help="create a subject")
+    new.add_argument("--id")
+    new.add_argument("--tracker", required=True)
+    new.add_argument("--key", required=True)
+    new.add_argument("--title", required=True)
+    new.add_argument("--kind")
+    new.add_argument("--project")
+    new.add_argument("--url")
+    new.add_argument("--epic")
+    new.add_argument("--if-missing", action="store_true", help="succeed quietly if it already exists")
+    new.set_defaults(func=cmd_new)
+
+    setter = sub.add_parser("set", help="change a subject's fields")
+    setter.add_argument("id")
+    setter.add_argument("--status")
+    setter.add_argument("--title")
+    setter.add_argument("--url")
+    setter.add_argument("--project")
+    setter.add_argument("--digest")
+    setter.add_argument("--epic")
+    setter.set_defaults(func=cmd_set)
+
+    step = sub.add_parser("step", help="record the outcome of a step")
+    step.add_argument("id")
+    step.add_argument("--step", required=True, choices=list(STEPS))
+    step.add_argument("--state", required=True, choices=sorted(STEP_STATES))
+    step.add_argument("--member")
+    step.add_argument("--file")
+    step.add_argument("--reason")
+    step.add_argument("--error")
+    step.add_argument("--verdict")
+    step.set_defaults(func=cmd_step)
+
+    journal = sub.add_parser("journal", help="append a block to a subject's journal")
+    journal.add_argument("id")
+    journal.add_argument("--step", required=True)
+    journal.add_argument("--member")
+    journal.add_argument("--file", required=True, help="file holding the block, or - for stdin")
+    journal.set_defaults(func=cmd_journal)
+
+    current = sub.add_parser("current", help="set or clear what the mod shows above the prompt")
+    current.add_argument("--id")
+    current.add_argument("--step")
+    current.add_argument("--member")
+    current.add_argument("--clear", action="store_true")
+    current.set_defaults(func=cmd_current)
+
+    link = sub.add_parser("link", help="link two subjects, both sides at once")
+    link.add_argument("id")
+    link.add_argument("--type", required=True, choices=sorted(RECIPROCAL))
+    link.add_argument("--to", required=True)
+    link.set_defaults(func=cmd_link)
+
+    epic = sub.add_parser("epic", help="create an epic, or add a subject to one")
+    epic.add_argument("slug")
+    epic.add_argument("--title")
+    epic.add_argument("--add", help="subject id to add")
+    epic.add_argument("--status")
+    epic.set_defaults(func=cmd_epic)
+
+    dig = sub.add_parser("digest", help="print the sha256 digest of a description")
+    dig.add_argument("--file", help="file to read, or - for stdin")
+    dig.set_defaults(func=cmd_digest)
 
     args = parser.parse_args()
     return args.func(args)
