@@ -8,10 +8,10 @@ identifies you lives in a configuration file that is never committed. The reposi
 
 In this order, first one found wins:
 
-1. the path in the `BRIGADE_CONFIG` environment variable;
-2. `.brigade/config.json` at the root of the current project — add `.brigade/` to that project's
+1. the path in the `TROUPE_CONFIG` environment variable;
+2. `.troupe/config.json` at the root of the current project — add `.troupe/` to that project's
    `.gitignore`;
-3. `~/.config/fantome-troupe/config.json` — your personal configuration, valid everywhere.
+3. `~/.config/phantom-troupe/config.json` — your personal configuration, valid everywhere.
 
 If none exists, the troupe stops and tells you what to create. It never guesses a host or a
 project identifier.
@@ -19,9 +19,9 @@ project identifier.
 To start:
 
 ```sh
-mkdir -p ~/.config/fantome-troupe
-cp config.example.json ~/.config/fantome-troupe/config.json
-$EDITOR ~/.config/fantome-troupe/config.json
+mkdir -p ~/.config/phantom-troupe
+cp config.example.json ~/.config/phantom-troupe/config.json
+$EDITOR ~/.config/phantom-troupe/config.json
 ```
 
 ## Keys
@@ -32,7 +32,7 @@ The directory where the troupe's memory lives: subjects, their per-step delivera
 journal and the epics. A leading `~` is expanded. This directory holds your real work; do not
 put it in a public repository.
 
-Default: `~/.local/share/fantome-troupe`.
+Default: `~/.local/share/phantom-troupe`.
 
 ### `owner` — object
 
@@ -53,7 +53,7 @@ means something to you: it is what you pass to `--tracker=`.
 | Key | Required | Role |
 | --- | --- | --- |
 | `kind` | yes | The adapter: `vikunja` or `jira-mcp`. The adapter is the only thing the repository knows; everything else comes from here. |
-| `keyPattern` | yes | A regular expression that recognizes a ticket key of this tracker. Used to infer the tracker from the argument to `/brigade`. Two trackers with overlapping patterns force a question. |
+| `keyPattern` | yes | A regular expression that recognizes a ticket key of this tracker. Used to infer the tracker from the argument to `/troupe`. Two trackers with overlapping patterns force a question. |
 | `states` | yes | Your own labels for the four states the troupe distinguishes: `todo`, `doing`, `review`, `done`. Each state accepts several labels; matching ignores case. |
 | `transitions` | yes | What the troupe is **allowed** to move. See below. |
 | `descriptionFormat` | yes | How to write a description: `html` (Vikunja), `adf` (Jira Cloud) or `markdown`. |
@@ -119,7 +119,7 @@ session, so he has no entry here.
 
 ### `workspaces` — object, optional
 
-Binds a local directory to a tracker and a project, so you do not need a `.brigade/config.json`
+Binds a local directory to a tracker and a project, so you do not need a `.troupe/config.json`
 in every repository. The key is a path; the longest key that prefixes the current directory wins.
 
 ```json
@@ -130,7 +130,7 @@ in every repository. The key is a path; the longest key that prefixes the curren
 
 ## What must never be committed
 
-The repository's `.gitignore` already excludes `config.json`, `*.local.json`, `.brigade/`,
+The repository's `.gitignore` already excludes `config.json`, `*.local.json`, `.troupe/`,
 `*.token` and `token`. If you put a configuration file anywhere else, exclude it too. The rule
 fits in one sentence: **the repository describes mechanisms, the configuration describes your
 installation.**

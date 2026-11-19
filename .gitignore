@@ -2,7 +2,7 @@
 # Anything naming a host, a project, a person or a token lives here.
 config.json
 *.local.json
-.brigade/
+.troupe/
 *.token
 token
 

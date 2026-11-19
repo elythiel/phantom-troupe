@@ -25,7 +25,7 @@
     "noConfig": "no configuration — see docs/configuration.md"
   },
   "board": {
-    "title": "Fantôme Troupe",
+    "title": "Phantom Troupe",
     "empty": "the archive is empty",
     "column": {
       "subject": "Subject",
@@ -39,7 +39,7 @@
     "subjectCount": "{count} subject(s)"
   },
   "errors": {
-    "noConfig": "No configuration found. Copy config.example.json to ~/.config/fantome-troupe/config.json.",
+    "noConfig": "No configuration found. Copy config.example.json to ~/.config/phantom-troupe/config.json.",
     "archiveUnreadable": "Archive unreadable at {path}.",
     "badIndex": "The archive index is malformed; the troupe will rebuild it on its next run."
   }

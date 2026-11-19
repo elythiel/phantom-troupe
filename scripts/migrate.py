@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import an older per-ticket directory layout into a Fantome Troupe archive.
+"""Import an older per-ticket directory layout into a Phantom Troupe archive.
 
 Plenty of hand-rolled agent setups keep one directory per ticket, holding a few
 Markdown files named after whoever wrote them. This maps those files onto the

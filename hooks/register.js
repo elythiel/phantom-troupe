@@ -1,13 +1,13 @@
 /**
- * The Fantome Troupe mod.
+ * The Phantom Troupe mod.
  *
- * It reads the archive and shows it. It drives nothing: the /brigade command
+ * It reads the archive and shows it. It drives nothing: the /troupe command
  * writes the state, and this file is only ever a reader. That is why nothing
  * here knows what a step means, only how to draw one, and why the plugin keeps
  * working with mods turned off.
  *
  * Two things are drawn: a row above the prompt naming the subject in progress,
- * and a /brigade-board command that prints the whole archive for the user's
+ * and a /troupe-board command that prints the whole archive for the user's
  * eyes only.
  */
 
@@ -26,7 +26,7 @@ let fingerprint = ''
 
 function pluginRoot() {
   try {
-    // .../fantome-troupe/hooks/register.js -> .../fantome-troupe
+    // .../phantom-troupe/hooks/register.js -> .../phantom-troupe
     const here = new URL('.', import.meta.url).pathname
     return here.replace(/\/hooks\/?$/, '')
   } catch {
@@ -56,11 +56,11 @@ async function readJson($, path) {
 // -------------------------------------------------------------- configuration
 
 async function findConfig($) {
-  const fromEnv = $.env.get('BRIGADE_CONFIG')
+  const fromEnv = $.env.get('TROUPE_CONFIG')
   const candidates = [
     fromEnv,
-    '.brigade/config.json',
-    expand($, '~/.config/fantome-troupe/config.json'),
+    '.troupe/config.json',
+    expand($, '~/.config/phantom-troupe/config.json'),
   ].filter(Boolean)
   for (const candidate of candidates) {
     const found = await readJson($, candidate)
@@ -218,7 +218,7 @@ export function register(on) {
   on('session.start', async ($, e, next) => {
     try {
       const config = await findConfig($)
-      archiveRoot = expand($, (config && config.archive) || '~/.local/share/fantome-troupe')
+      archiveRoot = expand($, (config && config.archive) || '~/.local/share/phantom-troupe')
       await loadStrings($, config && config.owner && config.owner.language)
       await refresh($)
 
@@ -231,11 +231,11 @@ export function register(on) {
     // Commands last: a refused name throws, and nothing above should be lost to it.
     try {
       await $.command.register({
-        name: 'brigade-board',
-        description: 'Show the Fantome Troupe board, without sending anything to Claude',
+        name: 'troupe-board',
+        description: 'Show the Phantom Troupe board, without sending anything to Claude',
       })
       await $.command.register({
-        name: 'brigade-epic',
+        name: 'troupe-epic',
         description: 'Show one epic and the subjects in it',
         argumentHint: '[slug]',
       })
@@ -264,11 +264,11 @@ export function register(on) {
     return next(e)
   })
 
-  on('command.run', { command: 'brigade-board' }, async () => {
+  on('command.run', { command: 'troupe-board' }, async () => {
     return { text: boardText(), isTextDisplayOnly: true }
   })
 
-  on('command.run', { command: 'brigade-epic' }, async ($, e) => {
+  on('command.run', { command: 'troupe-epic' }, async ($, e) => {
     return { text: epicText((e.args || '').trim()), isTextDisplayOnly: true }
   })
 }

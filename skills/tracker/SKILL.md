@@ -13,8 +13,8 @@ Two adapters exist. Which one applies comes from the configuration, never from a
 
 ## Resolve the tracker first
 
-Read the configuration as `docs/configuration.md` describes: `$BRIGADE_CONFIG`, then
-`.brigade/config.json` in the project, then `~/.config/fantome-troupe/config.json`. If there is
+Read the configuration as `docs/configuration.md` describes: `$TROUPE_CONFIG`, then
+`.troupe/config.json` in the project, then `~/.config/phantom-troupe/config.json`. If there is
 none, stop and say what to create. Never invent a host or a project id.
 
 Then pick the tracker, in this order:

@@ -1,5 +1,5 @@
 ---
-description: Check that the Fantôme Troupe is correctly installed - configuration, archive, trackers - and say precisely what to fix.
+description: Check that the Phantom Troupe is correctly installed - configuration, archive, trackers - and say precisely what to fix.
 argument-hint: "[--tracker=name]"
 ---
 
@@ -48,7 +48,7 @@ For every tracker, or only the one `--tracker` names:
 ## 4. Plugin
 
 - Claude Code's version, and whether it is at least 2.1.287. Below that the mod does not load and
-  the strip above the prompt and `/brigade-board` are simply absent — the rest works.
+  the strip above the prompt and `/troupe-board` are simply absent — the rest works.
 - Whether the six members are in your agent list, and under what name.
 
 ## Report

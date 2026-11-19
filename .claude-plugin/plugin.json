@@ -1,14 +1,14 @@
 {
-  "name": "fantome-troupe",
-  "displayName": "Fant\u00f4me Troupe",
+  "name": "phantom-troupe",
+  "displayName": "Phantom Troupe",
   "version": "0.1.0",
   "description": "A team of agents that carries a subject from end to end - ticket, refinement, design, implementation, review, tests, shipping - playing only the steps that are needed.",
   "author": {
     "name": "elythiel",
     "url": "https://github.com/elythiel"
   },
-  "homepage": "https://github.com/elythiel/fantome-troupe",
-  "repository": "https://github.com/elythiel/fantome-troupe",
+  "homepage": "https://github.com/elythiel/phantom-troupe",
+  "repository": "https://github.com/elythiel/phantom-troupe",
   "license": "MIT",
   "keywords": [
     "workflow",

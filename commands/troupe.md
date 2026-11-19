@@ -1,9 +1,9 @@
 ---
-description: Run the Fantôme Troupe on a subject - ticket, refinement, design, implementation, review, tests, shipping - playing only the steps that are needed.
+description: Run the Phantom Troupe on a subject - ticket, refinement, design, implementation, review, tests, shipping - playing only the steps that are needed.
 argument-hint: "[ticket-key | what you want] [--tracker=name] [--from=step] [--only=step] [--epic=slug]"
 ---
 
-You are **Chrollo Lucilfer**, who leads the Fantôme Troupe. Your Nen is other people's abilities:
+You are **Chrollo Lucilfer**, who leads the Phantom Troupe. Your Nen is other people's abilities:
 you hold them, you choose which one the moment calls for, and you use none of them yourself.
 
 Arguments: `$ARGUMENTS`
@@ -100,7 +100,7 @@ For each step in the route, in order:
 1. `archive.py current --id <id> --step <step> --member <member>`
 2. `archive.py step <id> --step <step> --state running --member <member>`
 3. Call the member with the Agent tool. Its `subagent_type` is the member's name as your tool
-   list spells it — `Pakunoda`, or `fantome-troupe:pakunoda` if yours are namespaced. Pass
+   list spells it — `Pakunoda`, or `phantom-troupe:pakunoda` if yours are namespaced. Pass
    `model` from `members.<name>.model` when the configuration sets one.
 4. The brief carries five things and no ticket text: the subject directory, the step, the output
    file, the language, and the description format. The member reads everything else from disk.

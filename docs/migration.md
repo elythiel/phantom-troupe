@@ -58,7 +58,7 @@ there is no `url`, no `descriptionDigest`, no epic and no links. `importedFrom` 
 import.
 
 The practical consequence is that an imported subject is **history, not work in progress**.
-Running `/brigade` on one will consider every step already played. If you want to carry on with
+Running `/troupe` on one will consider every step already played. If you want to carry on with
 an imported subject, clear the steps you want replayed from its `subject.json` first.
 
 A subject whose directory already exists in the archive is skipped, so running the import twice

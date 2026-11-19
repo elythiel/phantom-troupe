@@ -178,7 +178,7 @@ beyond the heading line, which is `## <ISO 8601 UTC> — <step> — <member>`.
 ```
 
 `step` is the furthest step reached, skipped steps included. Nothing else reads this file; it
-exists for the mod and for `/brigade` to answer "where was I" without walking the tree.
+exists for the mod and for `/troupe` to answer "where was I" without walking the tree.
 
 ## `current.json`
 
@@ -226,5 +226,5 @@ behind the source of truth by more than one command.
 [`docs/migration.md`](migration.md).
 
 
-The archive path comes from `--archive`, else `BRIGADE_ARCHIVE`, else the `archive` key of the
+The archive path comes from `--archive`, else `TROUPE_ARCHIVE`, else the `archive` key of the
 configuration resolved as [`docs/configuration.md`](configuration.md) describes.

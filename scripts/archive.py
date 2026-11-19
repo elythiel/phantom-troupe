@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect, check and repair a Fantome Troupe archive.
+"""Inspect, check and repair a Phantom Troupe archive.
 
 Stdlib only. The archive format is documented in docs/archive.md; this script is
 the executable half of that document. When the two disagree, the document wins
@@ -48,11 +48,11 @@ SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 # parent reference. Ticket keys come from a tracker, which is not us.
 SUBJECT_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 
-DEFAULT_ARCHIVE = "~/.local/share/fantome-troupe"
+DEFAULT_ARCHIVE = "~/.local/share/phantom-troupe"
 CONFIG_CANDIDATES = (
     "{env}",
-    ".brigade/config.json",
-    "~/.config/fantome-troupe/config.json",
+    ".troupe/config.json",
+    "~/.config/phantom-troupe/config.json",
 )
 
 
@@ -83,7 +83,7 @@ def write_json(path: Path, payload) -> None:
 
 
 def find_config() -> Path | None:
-    env = os.environ.get("BRIGADE_CONFIG")
+    env = os.environ.get("TROUPE_CONFIG")
     if env:
         candidate = Path(env).expanduser()
         return candidate if candidate.is_file() else None
@@ -108,7 +108,7 @@ def load_config() -> dict:
 def find_archive(explicit: str | None) -> Path:
     if explicit:
         return Path(explicit).expanduser()
-    env = os.environ.get("BRIGADE_ARCHIVE")
+    env = os.environ.get("TROUPE_ARCHIVE")
     if env:
         return Path(env).expanduser()
     config = find_config()
@@ -624,7 +624,7 @@ def cmd_digest(args) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--archive", help="archive directory (default: configuration, then $BRIGADE_ARCHIVE)")
+    parser.add_argument("--archive", help="archive directory (default: configuration, then $TROUPE_ARCHIVE)")
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("validate", help="check the archive against docs/archive.md").set_defaults(func=cmd_validate)
