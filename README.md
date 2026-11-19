@@ -34,7 +34,7 @@ logic is duplicated in JavaScript, and everything keeps working with the mod dis
 | **Machi** | code review |
 | **Feitan** | tests and edge cases |
 | **Nobunaga** | shipping: commit message, pull request, version |
-| **Shizuku** | the archive: the journal, the index, the epics |
+| **Shizuku** | the archive itself — the journal, the index, the epics. Not an agent: she is `scripts/archive.py` |
 
 ## The steps, and when they run
 
@@ -98,6 +98,27 @@ While a subject is being worked on, the mod keeps one row above the prompt:
 `/brigade-board` prints the whole archive, and `/brigade-epic <slug>` one epic. Both are
 display-only: what they print is for you and never enters the conversation. See
 [`docs/mod.md`](docs/mod.md).
+
+## Documentation
+
+| | |
+| --- | --- |
+| [`docs/configuration.md`](docs/configuration.md) | Every configuration key, and where the file goes |
+| [`docs/archive.md`](docs/archive.md) | The archive format, and the tool that checks it |
+| [`docs/members.md`](docs/members.md) | The contract between the orchestrator and the members |
+| [`docs/mod.md`](docs/mod.md) | What the mod draws, and what it is allowed to do |
+| [`docs/i18n.md`](docs/i18n.md) | Adding a language |
+| [`docs/migration.md`](docs/migration.md) | Importing an older per-ticket directory layout |
+
+## Commands
+
+| | |
+| --- | --- |
+| `/brigade [key or intent]` | Run the troupe on a subject |
+| `/brigade status` | The board |
+| `/brigade-doctor` | Check the installation and say what to fix |
+| `/brigade-board` | The board, printed by the mod, never sent to Claude |
+| `/brigade-epic <slug>` | One epic and the subjects in it |
 
 ## Languages
 
